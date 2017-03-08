@@ -1,14 +1,9 @@
 package RPG.Personnages;
 
-import RPG.Armes.Arme;
+import RPG.Armes.*;
 import RPG.Personnages.Comportement.iDeplacement;
 import RPG.Personnages.Comportement.Marcher;
-import RPG.Sorts.Comportement.Feu;
-import RPG.Sorts.Comportement.Glace;
-import RPG.Sorts.Comportement.Soin;
-import RPG.Sorts.Magie;
-import RPG.Sorts.Sort;
-import RPG.Sorts.iMagie;
+import RPG.Sorts.*;
 
 /**
  * Created by MPO on 28-Feb-17.
@@ -18,27 +13,27 @@ public abstract class Personnage implements iMagie{
     protected int vie;
     protected iDeplacement deplacement = new Marcher();
     protected Arme arme;
-    protected Magie magie;
+    protected Sort sort;
 
-    public Personnage(String nom, int vie, iDeplacement deplacement, Arme arme, Magie magie){
+    public Personnage(String nom, int vie, iDeplacement deplacement, Arme arme, Sort sort){
         this.nom = nom;
         this.vie = vie;
         this.deplacement = deplacement;
         this.arme = arme;
-        this.magie = magie;
+        this.sort = sort;
     }
 
     // Combat
-    public void attaquer(){
-        this.arme.attaquer();
+    public void attaquer(Personnage ennemi){
+        ennemi.setVie(this.arme);
     }
     public void upgradeArme(){this.arme.upgrade(); }
 
     // Magie
-    public String isMagic(String sort, String type){
+    public String isMagic(Sort sort){
         String str = "";
         if(this.arme.getMagic()) {
-            str = "je lance un sort "+ sort + " de " + type;
+            str = "je lance un sort "+ sort.getType().getNom() + " de " + sort.getElement().getNom();
         }else{
             str = "Désolé, je n'ai pas de pouvoir magique";
         }
@@ -46,9 +41,7 @@ public abstract class Personnage implements iMagie{
     }
 
     public String lancerSort(){
-        String sort = this.magie.getSort().getNom();
-        String type = this.magie.getType().getNom();
-        return isMagic(sort, type);
+        return isMagic(this.sort);
     }
 
     // Custom
@@ -61,17 +54,27 @@ public abstract class Personnage implements iMagie{
     public int getVie(){ return this.vie; }
     public iDeplacement getDeplacement(){ return this.deplacement; }
     public Arme getArme(){ return this.arme; }
-    public Magie getMagie(){ return this.magie; }
+    public Sort getSort(){ return this.sort; }
 
 
     // Setters
     public void setDeplacement(iDeplacement deplacement){
         this.deplacement = deplacement;
     }
+
     public Arme setArme(Arme arme){ return this.arme = arme; }
-    public Magie setSortFeu(){ return this.magie = new Feu(Sort.ECLAT); }
-    public Magie setSortGlace() { return this.magie = new Glace(Sort.AURA); }
-    public Magie setSortSoin(){ return this.magie = new Soin(Sort.VAGUE); }
+    public Arme setArmeADistance(ADistance arme){ return this.arme = new ArmeADistance(arme);}
+    public Arme setArmeBlanche(ABlanche arme){ return this.arme = new ArmeBlanche(arme);}
+    public Arme setArmeContondante(AContondante arme){ return this.arme = new ArmeContondante(arme);}
+
+    public Sort setSort(Type type, Element element){ return this.sort = new Sort(type, element); }
+    public Sort setSortFeu(){ return this.sort = new Sort(Type.ECLAT, Element.FEU); }
+    public Sort setSortGlace() { return this.sort = new Sort(Type.AURA, Element.GLACE); }
+    public Sort setSortSoin(){ return this.sort = new Sort(Type.VAGUE, Element.SOIN); }
+
+    public void setVie(Arme arme) {
+        this.vie -= arme.getDegat();
+    }
 
     // Default
     public String toString(){

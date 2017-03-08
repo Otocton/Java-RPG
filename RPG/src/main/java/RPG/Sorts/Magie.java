@@ -1,21 +1,19 @@
 package RPG.Sorts;
 
-import RPG.Sorts.Comportement.Type;
-
 /**
  * Created by Morgan on 1/03/17.
  */
 public abstract class Magie {
     protected int degat;
     protected int vitesse;
-    protected Sort sort;
     protected Type type;
+    protected Element element;
 
-    public Magie(Sort sort, Type type){
-        this.degat = sort.sortDegat;
-        this.vitesse = sort.sortVitesse;
-        this.sort = sort;
+    public Magie(Type type, Element element){
+        this.degat = type.sortDegat;
+        this.vitesse = type.sortVitesse;
         this.type = type;
+        this.element = element;
     }
 
     // Getters
@@ -27,12 +25,12 @@ public abstract class Magie {
         return  this.vitesse;
     }
 
-    public Sort getSort(){
-        return this.sort;
-    }
-
     public Type getType(){
         return this.type;
+    }
+
+    public Element getElement(){
+        return this.element;
     }
 
     // Setters
@@ -44,11 +42,11 @@ public abstract class Magie {
         return this.vitesse = vitesse;
     }
 
-    public Sort setSort(Sort sort){
-        return this.sort = sort;
-    }
-
     public Type setType(Type type){
         return this.type = type;
+    }
+
+    public Element setElement(Element element){
+        return this.element = element;
     }
 }

@@ -3,10 +3,9 @@ package RPG.Personnages;
 import RPG.Armes.AContondante;
 import RPG.Armes.ArmeContondante;
 import RPG.Personnages.Comportement.Marcher;
-import RPG.Sorts.Comportement.Feu;
-import RPG.Sorts.Comportement.Soin;
-import RPG.Sorts.Comportement.Glace;
+import RPG.Sorts.Element;
 import RPG.Sorts.Sort;
+import RPG.Sorts.Type;
 
 /**
  * Created by MPO on 28-Feb-17.
@@ -19,7 +18,7 @@ public class Mage extends Personnage{
                 10,
                 new Marcher(),
                 new ArmeContondante(AContondante.SCEPTRE),
-                new Feu(Sort.ECLAT)
+                new Sort(Type.ECLAT, Element.FEU)
         );
     }
 }

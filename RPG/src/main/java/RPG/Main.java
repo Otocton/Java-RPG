@@ -1,28 +1,44 @@
 package RPG;
 
-import RPG.Personnages.Archer;
-import RPG.Personnages.Guerrier;
-import RPG.Personnages.Mage;
-import RPG.Personnages.Personnage;
-import RPG.Sorts.Comportement.Feu;
-import RPG.Sorts.Comportement.Glace;
-import RPG.Sorts.Comportement.Soin;
-import RPG.Sorts.Magie;
-import RPG.Sorts.Sort;
-import RPG.Sorts.iMagie;
+import RPG.Armes.ADistance;
+import RPG.Armes.ArmeADistance;
+import RPG.Personnages.*;
+import RPG.Sorts.Element;
+import RPG.Sorts.Type;
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+import static RPG.Personnages.ListeClasse.archer;
 
 /**
  * Created by MPO on 28-Feb-17.
  */
 public class Main {
-    public static void main(String[] args){
-        //Contenu de votre classe
+    public static void main(String[] args) {
 
-        Personnage robin = new Archer("Robin");
-        Personnage aragorn = new Guerrier("Aragorn");
-        Personnage harry = new Mage("Harry");
+        Ring ring = new Ring();
 
-        System.out.println(harry.getMagie().getType());
+        ring.creerJoueur();
+        Personnage j1 = ring.joueurs.get(0);
+        System.out.println();
+
+        ring.creerJoueur();
+        Personnage j2 = ring.joueurs.get(1);
+        System.out.println();
+
+        while(j1.getVie()>0 && j2.getVie()>0){
+            j1.attaquer(j2);
+            System.out.println(j1.getNom()+" attaque "+j2.getNom()+" à qui il reste "+j2.getVie());
+
+            if(j2.getVie()>0) {
+                j2.attaquer(j1);
+                System.out.println(j2.getNom() + " attaque " + j1.getNom() + " à qui il reste " + j1.getVie());
+            }
+        }
 
     }
+
 }
